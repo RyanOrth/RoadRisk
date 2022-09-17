@@ -46,11 +46,6 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: screens[_selectedIndex],
       ),
-      floatingActionButton: const FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Help',
-        child: Icon(Icons.add),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

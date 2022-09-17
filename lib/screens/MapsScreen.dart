@@ -20,14 +20,19 @@ class _MapsScreenState extends State<MapsScreen> {
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
+        floatingActionButton: const FloatingActionButton(
+          onPressed: null,
+          tooltip: 'Help',
+          child: Icon(Icons.add),
+        ),
         body: GoogleMap(
-      onMapCreated: _onMapCreated,
-      initialCameraPosition: CameraPosition(
-        target: _center,
-        zoom: 11.0,
-      ),
-      zoomControlsEnabled: false,
-      myLocationButtonEnabled: false,
-    )));
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+          zoomControlsEnabled: false,
+          myLocationButtonEnabled: false,
+        )));
   }
 }
