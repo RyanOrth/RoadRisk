@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:road_risk/screens/MapsScreen.dart';
 import 'package:road_risk/screens/RoutesScreen.dart';
 import 'package:road_risk/screens/SettingsScreen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,11 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Road Risk App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(title: 'Road Risk App Home Page'),
     );
   }
 }
@@ -31,11 +32,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
-  var screens = [
-    const MapsScreen(),
-    const RoutesScreen(),
-    const SettingsScreen()
-  ];
+  var screens = [MapsScreen(), const RoutesScreen(), const SettingsScreen()];
 
   void _onItemTapped(int index) {
     setState(() {
