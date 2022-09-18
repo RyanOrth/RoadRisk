@@ -26,29 +26,27 @@ class _RoutesScreenState extends State<RoutesScreen> {
         padding: const EdgeInsets.all(16),
         itemCount: 3,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 50,
-            color: Color.fromARGB(255, 83, 160, 83),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Route ${routeList[index]}',
-                    style: _biggerFont,
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text('Risk: ${riskList[index]}'),
-                  ),
-                ),
-                Expanded(
-                  child: Text('time: ${timeSheet[index]}'),
-                ),
-              ],
+          return (ExpansionTile(
+            title: Text(
+              'Route ${routeList[index]}',
+              style:
+                  const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
             ),
-          );
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  'Risk: ${riskList[index]}',
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  'Time: ${timeSheet[index]}',
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ],
+          ));
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
