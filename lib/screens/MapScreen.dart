@@ -35,12 +35,23 @@ class MapScreenState extends State<MapScreen> {
 		LatLng(40.8118775, -96.7055320),
 	];
 
+	static const markers = [
+		LatLng(40.8205124, -96.7040093),
+		LatLng(40.8118775, -96.7055320)
+	];
+
+	/**
+	 * Go to the default location
+	 */
 	void _gotoDefault() {
 		controller.center = const LatLng(0,0);
 		controller.zoom = 14;
 		setState(() {});
 	}
 
+	/**
+	 * Handle Double Taps
+	 */
 	void _onDoubleTap(MapTransformer transformer, Offset position) {
 		const delta = 10;
 		final zoom = clamp(controller.zoom + delta, 2, 18);
@@ -51,11 +62,17 @@ class MapScreenState extends State<MapScreen> {
 
 	Offset? _dragStart;
 	double _scaleStart = 1.0;
+	/**
+	 * Starting Scale
+	 */
 	void _onScaleStart(ScaleStartDetails details) {
 		_dragStart = details.focalPoint;
 		_scaleStart = 1.0;
 	}
 
+	/**
+	 * Handle Scale Updating
+	 */
 	void _onScaleUpdate(ScaleUpdateDetails details, MapTransformer transformer) {
 		final scaleDiff = details.scale - _scaleStart;
 		_scaleStart = details.scale;
@@ -93,8 +110,41 @@ class MapScreenState extends State<MapScreen> {
 		setState(() {});
 	}
 
+	/** 
+	 * Utility function to convert waypoints to Positioned Widgets
+	 * @params pos - Offset
+	 * @params color - Color
+	 * @return position
+	 */
+	Widget _buildMarkerWidget(Offset pos, Color color,
+		[IconData icon = Icons.location_on]) {
+		return Positioned(
+			left: pos.dx - 24,
+			top: pos.dy - 24,
+			width: 48,
+			height: 48,
+			child: GestureDetector(
+				child: Icon(
+					icon,
+					color: color,
+					size: 48,
+				),
+				onTap: () {
+					showDialog(
+						context: context,
+						builder: (context) => const AlertDialog(
+							content: Text('You have clicked a marker!'),
+						),
+					);
+				},
+			),
+		);
+	}
+
 	@override
 	Widget build(BuildContext context) {
+
+		// Create Polylines based on the data that we have.
 		final polylines = <Polyline>[
 			Polyline(
 				data: polyCoords,
@@ -104,9 +154,19 @@ class MapScreenState extends State<MapScreen> {
 			)
 		];
 		
+		// Create the map
 		return MapLayout(
 			controller: controller,
 			builder: (context, transformer) {
+
+				// Create the markers for later on.
+				final markerPositions = markers.map(transformer.toOffset).toList();
+
+				final markerWidgets = markerPositions.map(
+					(pos) => _buildMarkerWidget(pos, Colors.red),
+				);
+
+				// Gesture Detections
 				return GestureDetector(
 					behavior: HitTestBehavior.opaque,
 					onDoubleTapDown: (details) => _onDoubleTap(
@@ -121,6 +181,8 @@ class MapScreenState extends State<MapScreen> {
 							if (!(event is PointerScrollEvent)) {
 								return;
 							}
+
+							// If the scroll delta is too much, edit me
 							final delta = event.scrollDelta.dy / -100.0;
 							final zoom = clamp(controller.zoom + delta, 2, 18);
 
@@ -129,6 +191,7 @@ class MapScreenState extends State<MapScreen> {
 						},
 						child: Stack(
 							children: [
+								// Tiled Map Data
 								TileLayer(
 									builder: (context, x, y, z) {
 										final tilesInZoom = pow(2.0, z).floor();
@@ -149,10 +212,18 @@ class MapScreenState extends State<MapScreen> {
 										);
 									},
 								),
+
+								// Polylines
 								PolylineLayer(
 									transformer: transformer,
 									polylines: polylines,
 								),
+
+								// Markers
+								...markerWidgets,
+								
+								// Custom Painter
+								// Do we need this?
 								CustomPaint(
 									painter: ViewportPainter(
 										transformer.getViewport(),
