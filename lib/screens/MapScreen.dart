@@ -22,20 +22,20 @@ class MapScreen extends StatefulWidget {
 
 class MapScreenState extends State<MapScreen> {
   final controller = MapController(
-    location: const LatLng(35.68, 51.41),
+    location: const LatLng(0, 0),
     zoom: 6,
   );
 
   bool _darkMode = false;
 
   void _gotoDefault() {
-    controller.center = const LatLng(35.68, 51.41);
+    controller.center = const LatLng(0,0);
     controller.zoom = 14;
     setState(() {});
   }
 
   void _onDoubleTap(MapTransformer transformer, Offset position) {
-    const delta = 0.5;
+    const delta = 10;
     final zoom = clamp(controller.zoom + delta, 2, 18);
 
     transformer.setZoomInPlace(zoom, position);
@@ -54,11 +54,11 @@ class MapScreenState extends State<MapScreen> {
     _scaleStart = details.scale;
 
     if (scaleDiff > 0) {
-      controller.zoom += 0.02;
+      controller.zoom += 10;
 
       setState(() {});
     } else if (scaleDiff < 0) {
-      controller.zoom -= 0.02;
+      controller.zoom -= 10;
       if (controller.zoom < 1) {
         controller.zoom = 1;
       }
@@ -115,7 +115,7 @@ class MapScreenState extends State<MapScreen> {
               behavior: HitTestBehavior.opaque,
               onPointerSignal: (event) {
                 if (event is PointerScrollEvent) {
-                  final delta = event.scrollDelta.dy / -1000.0;
+                  final delta = event.scrollDelta.dy / -100.0;
                   final zoom = clamp(controller.zoom + delta, 2, 18);
 
                   transformer.setZoomInPlace(zoom, event.localPosition);
