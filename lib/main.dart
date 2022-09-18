@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:road_risk/screens/MapsScreen.dart';
+import 'package:road_risk/screens/MapScreen.dart';
 import 'package:road_risk/screens/RoutesScreen.dart';
 import 'package:road_risk/screens/SettingsScreen.dart';
 
@@ -32,7 +32,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
   var screens = [
-    const MapsScreen(),
+    const MapScreen(),
     const RoutesScreen(),
     const SettingsScreen()
   ];
