@@ -12,8 +12,6 @@ final List<double> riskList = <double>[0.5, 0.1, 0.4];
 final List<int> timeSheet = <int>[10, 23, 1];
 
 class _RoutesScreenState extends State<RoutesScreen> {
-  final _biggerFont = const TextStyle(fontSize: 24);
-
   final int min = 0;
   final int max = 10;
   int randomNumber = 1;
