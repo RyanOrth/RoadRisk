@@ -10,9 +10,7 @@ class MapsScreen extends StatefulWidget {
 
 class _MapsScreenState extends State<MapsScreen> {
   late GoogleMapController mapController;
-  Marker _origin = const Marker(markerId: MarkerId("origin"), visible: false);
-  Marker _destination =
-      const Marker(markerId: MarkerId("destination"), visible: false);
+  var _markers = <Marker>{};
 
   final LatLng _center = const LatLng(37.773972, -122.432917); // San Francisco
 
@@ -23,10 +21,10 @@ class _MapsScreenState extends State<MapsScreen> {
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
-        floatingActionButton: const FloatingActionButton(
-          onPressed: null,
+        floatingActionButton: FloatingActionButton(
+          onPressed: _addMarkerToList,
           tooltip: 'Help',
-          child: Icon(Icons.add),
+          child: const Text("+Route"), //Icon(Icons.add),
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
@@ -34,10 +32,7 @@ class _MapsScreenState extends State<MapsScreen> {
             target: _center,
             zoom: 11.0,
           ),
-          markers: {
-            if (_origin.visible) _origin,
-            if (_destination.visible) _destination,
-          },
+          markers: _markers,
           onTap: _addMarker,
           zoomControlsEnabled: false,
           myLocationButtonEnabled: false,
@@ -45,7 +40,41 @@ class _MapsScreenState extends State<MapsScreen> {
   }
 
   void _addMarker(LatLng pos) {
-    if (!_origin.visible || (!_origin.visible && !_destination.visible)) {
+    if (_markers.isEmpty || (_markers.length == 2)) {
+      setState(() {
+        _markers = {};
+      });
+      setState(() {
+        _markers.add(Marker(
+          markerId: const MarkerId("origin"),
+          infoWindow: const InfoWindow(title: "Origin"),
+          draggable: true,
+          position: pos,
+        ));
+      });
+    } else {
+      setState(() {
+        _markers.add(Marker(
+          markerId: const MarkerId("destination"),
+          infoWindow: const InfoWindow(title: "Destination"),
+          draggable: true,
+          position: pos,
+        ));
+      });
+    }
+  }
+
+  void _addMarkerToList() {
+    setState(() {
+      print(_markers);
+      _markers = {};
+      print(_markers);
+    });
+  }
+
+  /*
+  void _addMarker(LatLng pos) {
+    if (!_origin.visible || (_origin.visible && _destination.visible)) {
       // Origin is not set OR Origin/Destination are both set
       // Set origin
       setState(() {
@@ -54,12 +83,22 @@ class _MapsScreenState extends State<MapsScreen> {
           infoWindow: const InfoWindow(title: 'Origin'),
           icon:
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          position: pos,
+          position: LatLng(pos.latitude, pos.longitude),
           visible: true,
         );
-        // Reset destination
-        _destination =
-            const Marker(markerId: MarkerId("destination"), visible: false);
+        /*
+        const position = pos;
+        _origin = const Marker(
+            markerId: MarkerId('origin'),
+            infoWindow: InfoWindow(title: 'Destination'),
+            position: position,
+            visible: true);
+        */
+        _destination = const Marker(
+            markerId: MarkerId('destination'),
+            position: LatLng(0, 0),
+            visible: false);
+        print(pos);
       });
     } else {
       // Origin is already set
@@ -73,6 +112,7 @@ class _MapsScreenState extends State<MapsScreen> {
           visible: true,
         );
       });
+
       /* 
       // Get directions
       final directions = await DirectionsRepository()
@@ -80,5 +120,5 @@ class _MapsScreenState extends State<MapsScreen> {
       setState(() => _info = directions);
       */
     }
-  }
+  }*/
 }
