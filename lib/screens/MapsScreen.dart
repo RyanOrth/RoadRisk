@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({super.key});
@@ -22,8 +23,8 @@ class _MapsScreenState extends State<MapsScreen> {
   Widget build(BuildContext context) {
     return (Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: _addMarkerToList,
-          tooltip: 'Help',
+          onPressed: _addRouteToRoutes,
+          tooltip: 'Add Route',
           child: const Text("+Route"), //Icon(Icons.add),
         ),
         body: GoogleMap(
@@ -46,7 +47,7 @@ class _MapsScreenState extends State<MapsScreen> {
       });
       setState(() {
         _markers.add(Marker(
-          markerId: const MarkerId("origin"),
+          markerId: MarkerId(Uuid().v1()),
           infoWindow: const InfoWindow(title: "Origin"),
           draggable: true,
           position: pos,
@@ -55,70 +56,23 @@ class _MapsScreenState extends State<MapsScreen> {
     } else {
       setState(() {
         _markers.add(Marker(
-          markerId: const MarkerId("destination"),
+          markerId: MarkerId(Uuid().v1()),
           infoWindow: const InfoWindow(title: "Destination"),
           draggable: true,
           position: pos,
         ));
       });
     }
+
+    /*
+    // Get directions
+    final directions = await DirectionsRepository()
+        .getDirections(origin: _origin.position, destination: pos);
+    setState(() => _info = directions);
+    */
   }
 
-  void _addMarkerToList() {
-    setState(() {
-      print(_markers);
-      _markers = {};
-      print(_markers);
-    });
+  void _addRouteToRoutes() {
+    setState(() {});
   }
-
-  /*
-  void _addMarker(LatLng pos) {
-    if (!_origin.visible || (_origin.visible && _destination.visible)) {
-      // Origin is not set OR Origin/Destination are both set
-      // Set origin
-      setState(() {
-        _origin = Marker(
-          markerId: const MarkerId('origin'),
-          infoWindow: const InfoWindow(title: 'Origin'),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          position: LatLng(pos.latitude, pos.longitude),
-          visible: true,
-        );
-        /*
-        const position = pos;
-        _origin = const Marker(
-            markerId: MarkerId('origin'),
-            infoWindow: InfoWindow(title: 'Destination'),
-            position: position,
-            visible: true);
-        */
-        _destination = const Marker(
-            markerId: MarkerId('destination'),
-            position: LatLng(0, 0),
-            visible: false);
-        print(pos);
-      });
-    } else {
-      // Origin is already set
-      // Set destination
-      setState(() {
-        _destination = Marker(
-          markerId: const MarkerId('destination'),
-          infoWindow: const InfoWindow(title: 'Destination'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          position: pos,
-          visible: true,
-        );
-      });
-
-      /* 
-      // Get directions
-      final directions = await DirectionsRepository()
-          .getDirections(origin: _origin.position, destination: pos);
-      setState(() => _info = directions);
-      */
-    }
-  }*/
 }
