@@ -28,6 +28,16 @@ class MapScreenState extends State<MapScreen> {
 
   bool _darkMode = false;
 
+  static const polyCoords = [
+    LatLng(40, -60),
+    LatLng(20, -20),
+    LatLng(0, -10),
+    LatLng(10, 0),
+    LatLng(0, 10),
+    LatLng(20, 20),
+    LatLng(0, 60),
+  ];
+
   void _gotoDefault() {
     controller.center = const LatLng(0,0);
     controller.zoom = 14;
@@ -85,6 +95,14 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final polylines = <Polyline>[
+      Polyline(
+        data: polyCoords,
+        paint: Paint()
+          ..strokeWidth = 4
+          ..color = Colors.red,
+      )
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text('Raster Map'),
@@ -143,6 +161,10 @@ class MapScreenState extends State<MapScreen> {
                         fit: BoxFit.cover,
                       );
                     },
+                  ),
+                  PolylineLayer(
+                    transformer: transformer,
+                    polylines: polylines,
                   ),
                   CustomPaint(
                     painter: ViewportPainter(
