@@ -11,7 +11,7 @@ class MapsScreen extends StatefulWidget {
 class _MapsScreenState extends State<MapsScreen> {
   late GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433); // SanFran
+  final LatLng _center = const LatLng(45.521563, -122.677433); // Portland
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
