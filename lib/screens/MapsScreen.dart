@@ -47,7 +47,7 @@ class _MapsScreenState extends State<MapsScreen> {
       });
       setState(() {
         _markers.add(Marker(
-          markerId: MarkerId(Uuid().v1()),
+          markerId: MarkerId(Uuid().v4()),
           infoWindow: const InfoWindow(title: "Origin"),
           draggable: true,
           position: pos,
@@ -56,7 +56,7 @@ class _MapsScreenState extends State<MapsScreen> {
     } else {
       setState(() {
         _markers.add(Marker(
-          markerId: MarkerId(Uuid().v1()),
+          markerId: MarkerId(Uuid().v4()),
           infoWindow: const InfoWindow(title: "Destination"),
           draggable: true,
           position: pos,
