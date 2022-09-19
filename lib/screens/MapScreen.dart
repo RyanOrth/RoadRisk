@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:open_route_service/open_route_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:latlng/latlng.dart';
 import 'package:map/map.dart';
@@ -11,7 +12,6 @@ import 'package:map/map.dart';
 import 'package:road_risk/utils/TileServers.dart';
 import 'package:road_risk/utils/Utils.dart';
 import 'package:road_risk/utils/ViewportPainter.dart';
-
 
 class MapScreen extends StatefulWidget {
 	const MapScreen({Key? key}) : super(key: key);
@@ -26,16 +26,18 @@ class MapScreenState extends State<MapScreen> {
 		zoom: 6,
 	);
 
+	OpenRouteService openrouteservice = OpenRouteService(apiKey: '');
+
 	bool _darkMode = false;
 
-	static const polyCoords = [
+	var polyCoords = [
 		LatLng(40.8205124, -96.7040093),
 		LatLng(40.8136168, -96.7040556),
 		LatLng(40.8136231, -96.7055320),
 		LatLng(40.8118775, -96.7055320),
 	];
 
-	static const markers = [
+	var markers = [
 		LatLng(40.8205124, -96.7040093),
 		LatLng(40.8118775, -96.7055320)
 	];
@@ -175,6 +177,37 @@ class MapScreenState extends State<MapScreen> {
 					),
 					onScaleStart: _onScaleStart,
 					onScaleUpdate: (details) => _onScaleUpdate(details, transformer),
+					onTapUp: (details) async {
+						final location = transformer.toLatLng(details.localPosition);
+
+						if(markers.length > 1)
+							markers.clear();
+
+						markers.add(LatLng(location.latitude, location.longitude));
+
+						setState(() {});
+
+						if(markers.length < 2){ return; }
+						
+						// Form Route between coordinates
+						final Future<List<ORSCoordinate>> routeCoordinates = openrouteservice.directionsRouteCoordsGet(
+							startCoordinate: ORSCoordinate(latitude: markers[0].latitude, longitude: markers[0].longitude),
+							endCoordinate: ORSCoordinate(latitude: markers[1].latitude, longitude: markers[1].longitude),
+						);
+
+						routeCoordinates.then( (resp) {
+							resp.forEach(print);
+
+							polyCoords = resp
+								.map((coordinate) => LatLng(coordinate.latitude, coordinate.longitude))
+								.toList();
+
+							setState((){});
+						});
+
+
+						setState(() {});
+					}, 
 					child: Listener(
 						behavior: HitTestBehavior.opaque,
 						onPointerSignal: (event) {
