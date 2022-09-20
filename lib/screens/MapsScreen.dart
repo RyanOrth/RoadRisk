@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
+//import 'package:road_risk/models/directions_model.dart';
+//import 'package:road_risk/common/directions_repository.dart';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({super.key});
@@ -12,8 +14,8 @@ class MapsScreen extends StatefulWidget {
 class _MapsScreenState extends State<MapsScreen> {
   late GoogleMapController mapController;
   var _markers = <Marker>{};
-
   final LatLng _center = const LatLng(37.773972, -122.432917); // San Francisco
+  //Directions? _info;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -40,7 +42,7 @@ class _MapsScreenState extends State<MapsScreen> {
         )));
   }
 
-  void _addMarker(LatLng pos) {
+  void _addMarker(LatLng pos) async {
     if (_markers.isEmpty || (_markers.length == 2)) {
       setState(() {
         _markers = {};
@@ -52,6 +54,7 @@ class _MapsScreenState extends State<MapsScreen> {
           draggable: true,
           position: pos,
         ));
+        //_info = null;
       });
     } else {
       setState(() {
@@ -63,11 +66,10 @@ class _MapsScreenState extends State<MapsScreen> {
         ));
       });
     }
-
     /*
     // Get directions
     final directions = await DirectionsRepository()
-        .getDirections(origin: _origin.position, destination: pos);
+        .getDirections(origin: _markers.first.position, destination: pos);
     setState(() => _info = directions);
     */
   }
