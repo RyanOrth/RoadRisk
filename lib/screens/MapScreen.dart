@@ -180,8 +180,10 @@ class MapScreenState extends State<MapScreen> {
 					onTapUp: (details) async {
 						final location = transformer.toLatLng(details.localPosition);
 
-						if(markers.length > 1)
+						if(markers.length > 1){
 							markers.clear();
+							polyCoords.clear();
+						}
 
 						markers.add(LatLng(location.latitude, location.longitude));
 
@@ -196,13 +198,24 @@ class MapScreenState extends State<MapScreen> {
 						);
 
 						routeCoordinates.then( (resp) {
-							resp.forEach(print);
+							// resp.forEach(print);
 
 							polyCoords = resp
 								.map((coordinate) => LatLng(coordinate.latitude, coordinate.longitude))
 								.toList();
 
 							setState((){});
+						}).catchError( (error) {
+							showDialog(
+								context: context,
+								builder: (context) => const AlertDialog(
+									content: Text('Unable to generate route!'),
+								),
+							);
+
+							markers.clear();
+							polyCoords.clear();
+							setState(() {});
 						});
 
 
