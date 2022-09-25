@@ -24,24 +24,28 @@ class _MapsScreenState extends State<MapsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return (Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: _addRouteToRoutes,
-          tooltip: 'Add Route',
-          child: const Text("+Route"), //Icon(Icons.add),
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-          markers: _markers,
-          onTap: _addMarker,
-          zoomControlsEnabled: false,
-          myLocationButtonEnabled: false,
-          polylines: _polylines,
-        )));
+    return (Stack(
+      children: [
+        Scaffold(
+            floatingActionButton: FloatingActionButton.extended(
+              label: Text("Add Route"),
+              icon: Icon(Icons.add),
+              onPressed: _addRouteToRoutes,
+            ),
+            body: GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
+              ),
+              markers: _markers,
+              onTap: _addMarker,
+              zoomControlsEnabled: false,
+              myLocationButtonEnabled: false,
+              polylines: _polylines,
+            )),
+      ],
+    ));
   }
 
   void _addMarker(LatLng pos) async {
