@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
-//import 'package:road_risk/models/directions_model.dart';
-//import 'package:road_risk/common/directions_repository.dart';
+import 'package:road_risk/models/directions_model.dart';
+import 'package:road_risk/common/directions_repository.dart';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({super.key});
@@ -14,8 +14,9 @@ class MapsScreen extends StatefulWidget {
 class _MapsScreenState extends State<MapsScreen> {
   late GoogleMapController mapController;
   var _markers = <Marker>{};
+  var _polylines = <Polyline>{};
   final LatLng _center = const LatLng(37.773972, -122.432917); // San Francisco
-  //Directions? _info;
+  Directions? _info;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -39,6 +40,7 @@ class _MapsScreenState extends State<MapsScreen> {
           onTap: _addMarker,
           zoomControlsEnabled: false,
           myLocationButtonEnabled: false,
+          polylines: _polylines,
         )));
   }
 
@@ -54,7 +56,14 @@ class _MapsScreenState extends State<MapsScreen> {
           draggable: true,
           position: pos,
         ));
-        //_info = null;
+        _info = null;
+        _polylines = {};
+        _polylines.add(Polyline(
+          polylineId: PolylineId(Uuid().v4.toString()),
+          points: [],
+          width: 4,
+          color: Colors.red,
+        ));
       });
     } else {
       setState(() {
@@ -68,10 +77,23 @@ class _MapsScreenState extends State<MapsScreen> {
     }
     /*
     // Get directions
-    final directions = await DirectionsRepository()
-        .getDirections(origin: _markers.first.position, destination: pos);
-    setState(() => _info = directions);
     */
+    Future directions = DirectionsRepository()
+        .getDirections(origin: _markers.first.position, destination: pos);
+    directions.then((direction) {
+      setState(() {
+        _info = direction;
+        _polylines = {};
+        _polylines.add(Polyline(
+          polylineId: PolylineId(Uuid().v4.toString()),
+          points: direction.polylinePoints,
+          width: 4,
+          color: Colors.red,
+        ));
+      });
+      print("direcion");
+      print(direction.polylinePoints);
+    });
   }
 
   void _addRouteToRoutes() {

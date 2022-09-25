@@ -1,34 +1,40 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:road_risk/.env.dart';
 import 'package:road_risk/models/directions_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class DirectionsRepository {
-  static const String _baseUrl =
-      'https://maps.googleapis.com/maps/api/directions/json?';
-
-  final Dio _dio;
-
-  DirectionsRepository({Dio? dio}) : _dio = dio ?? Dio();
+  PolylinePoints polylinePoints = PolylinePoints();
+  final String googleApiKey = 'AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4';
+  List<List<num>> polylineCoordinates = [];
+  List<LatLng> polylineLatLongs = [];
 
   Future<Directions?> getDirections({
     required LatLng origin,
     required LatLng destination,
   }) async {
-    final response = await _dio.get(
-      _baseUrl,
-      queryParameters: {
-        'origin': '${origin.latitude},${origin.longitude}',
-        'destination': '${destination.latitude},${destination.longitude}',
-        'key': googleAPIKey,
-      },
-    );
-
-    // Check if response is successful
-    if (response.statusCode == 200) {
-      return Directions.fromMap(response.data);
+    final httpResponse = await http.get(Uri.parse(
+        'http://127.0.0.1:8000/Route/Origin=${origin.latitude},${origin.longitude}&Destination=${destination.latitude},${destination.longitude}'));
+    final result = jsonDecode(httpResponse.body.toString());
+    if (result["totalDuration"] != 0) {
+      result["decodedPolyline"].forEach((point) {
+        polylineCoordinates.add([point[0], point[1]]);
+        polylineLatLongs.add(LatLng(point[0], point[1]));
+      });
+      var tempDirections = Directions(
+          bounds: LatLngBounds(
+              southwest: LatLng(result["bounds"]["southwest"]["lat"],
+                  result["bounds"]["southwest"]["lng"]),
+              northeast: LatLng(result["bounds"]["northeast"]["lat"],
+                  result["bounds"]["northeast"]["lng"])),
+          polylinePoints: polylineLatLongs,
+          totalDistance: "1",
+          totalDuration: "1");
+      return tempDirections;
+    } else {
+      return null;
     }
-    return null;
   }
 }
