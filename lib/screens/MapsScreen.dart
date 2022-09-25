@@ -91,8 +91,6 @@ class _MapsScreenState extends State<MapsScreen> {
           color: Colors.red,
         ));
       });
-      print("direcion");
-      print(direction.polylinePoints);
     });
   }
 
