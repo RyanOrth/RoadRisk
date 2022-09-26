@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:road_risk/models/routes_model.dart';
 
 class RoutesScreen extends StatefulWidget {
   const RoutesScreen({super.key});
@@ -7,13 +8,7 @@ class RoutesScreen extends StatefulWidget {
   State<RoutesScreen> createState() => _RoutesScreenState();
 }
 
-final List<String> routeList = <String>['A', 'B', 'C'];
-final List<double> riskList = <double>[0.5, 0.1, 0.4];
-final List<int> timeSheet = <int>[10, 23, 1];
-
 class _RoutesScreenState extends State<RoutesScreen> {
-  final int min = 0;
-  final int max = 10;
   int randomNumber = 1;
 
   @override
@@ -22,32 +17,76 @@ class _RoutesScreenState extends State<RoutesScreen> {
       alignment: Alignment.topCenter,
       child: ListView.separated(
         padding: const EdgeInsets.all(16),
-        itemCount: 3,
+        itemCount: context.watch<RoutesModel>().savedRoutes.length,
         itemBuilder: (BuildContext context, int index) {
-          return (ExpansionTile(
-            title: Text(
-              'Route ${routeList[index]}',
-              style:
-                  const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-            ),
-            children: <Widget>[
-              ListTile(
-                title: Text(
-                  'Risk: ${riskList[index]}',
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'Time: ${timeSheet[index]}',
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-              ),
-            ],
-          ));
+          return createCard(
+            'Distance ${context.watch<RoutesModel>().savedRoutes[index].totalDistance}',
+            'Risk: ${context.watch<RoutesModel>().savedRoutes[index].totalDistance}',
+            'Time: ${context.watch<RoutesModel>().savedRoutes[index].totalDuration}',
+            context.watch<RoutesModel>().savedRoutes[index].encodedPolyline,
+          );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
     );
   }
+}
+
+Widget createCard(
+  title,
+  secondaryText,
+  bodyText,
+  polyline,
+) {
+  return Card(
+    clipBehavior: Clip.antiAlias,
+    child: Column(
+      children: [
+        ListTile(
+          leading: Icon(Icons.arrow_drop_down_circle),
+          title: Text(title),
+          subtitle: Text(
+            secondaryText,
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+          ),
+        ),
+        _buildStaticMapImage(polyline),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            bodyText,
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+          ),
+        ),
+        ButtonBar(
+          alignment: MainAxisAlignment.start,
+          children: [
+            TextButton(
+              onPressed: () {
+                // Perform some action
+              },
+              child: const Text('ACTION 1'), //const Color(0xFF6200EE),
+            ),
+            TextButton(
+              onPressed: () {
+                // Perform some action
+              },
+              child: const Text('ACTION 2'), //const Color(0xFF6200EE),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildStaticMapImage(path) {
+  //var path = 'c``pEtjypUi@fAu@zA[j@mAzB';
+  print(path);
+  return FadeInImage(
+    image: NetworkImage(
+        'https://maps.googleapis.com/maps/api/staticmap?&type=roadmap&size=1080x720&path=color:red%7Cenc:${path}&key=AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4'),
+    placeholder:
+        const AssetImage('images/circular_progress_indicator_square_small.gif'),
+  );
 }

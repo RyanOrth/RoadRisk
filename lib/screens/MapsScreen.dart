@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:road_risk/models/routes_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:road_risk/models/directions_model.dart';
 import 'package:road_risk/common/directions_repository.dart';
@@ -24,11 +25,25 @@ class _MapsScreenState extends State<MapsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void _addRouteToRoutes() {
+      var routeModel = context.read<RoutesModel>();
+      if (_info != null) {
+        routeModel.addRoute(Directions(
+            bounds: _info?.bounds ??
+                LatLngBounds(southwest: LatLng(0, 0), northeast: LatLng(0, 0)),
+            polylinePoints: _info?.polylinePoints,
+            totalDistance: _info?.totalDistance ?? "",
+            totalDuration: _info?.totalDuration ?? "",
+            encodedPolyline: _info?.encodedPolyline ?? ""));
+      }
+      setState(() {});
+    }
+
     return (Stack(
       children: [
         Scaffold(
             floatingActionButton: FloatingActionButton.extended(
-              label: Text("Add Route"),
+              label: Text("Add Route to Routes"),
               icon: Icon(Icons.add),
               onPressed: _addRouteToRoutes,
             ),
@@ -96,9 +111,5 @@ class _MapsScreenState extends State<MapsScreen> {
         ));
       });
     });
-  }
-
-  void _addRouteToRoutes() {
-    setState(() {});
   }
 }

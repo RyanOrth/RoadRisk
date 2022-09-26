@@ -20,8 +20,9 @@ def RouteView(request, originLat, originLong, destLat, destLong):
         total_duration = 0
         legs = directions_result[0].get("legs")
         for leg in legs:
-            total_distance += leg.get("distance").get("value")
-            total_duration += leg.get("distance").get("value") #FIXME
+            total_distance += leg.get("distance").get("value") #in meters
+            total_duration += leg.get("duration").get("value") #in seconds
+        total_duration /= 60 # needs to be in minutes
         routeJSON = {
             "bounds":directions_result[0]["bounds"],
             "polyline":directions_result[0]["overview_polyline"]['points'],

@@ -19,7 +19,6 @@ class DirectionsRepository {
         'http://127.0.0.1:8000/Route/Origin=${origin.latitude},${origin.longitude}&Destination=${destination.latitude},${destination.longitude}'));
     final result = jsonDecode(httpResponse.body.toString());
     if (result["totalDuration"] != 0) {
-      print(result);
       result["decodedPolyline"].forEach((point) {
         polylineCoordinates.add([point[0], point[1]]);
         polylineLatLongs.add(LatLng(point[0], point[1]));
@@ -31,8 +30,9 @@ class DirectionsRepository {
               northeast: LatLng(result["bounds"]["northeast"]["lat"],
                   result["bounds"]["northeast"]["lng"])),
           polylinePoints: polylineLatLongs,
-          totalDistance: "1",
-          totalDuration: "1");
+          totalDistance: result["totalDistance"].toString(),
+          totalDuration: result["totalDuration"].toString(),
+          encodedPolyline: result["polyline"]);
       return tempDirections;
     } else {
       return null;
