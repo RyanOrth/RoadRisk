@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -58,6 +59,30 @@ class _MapsScreenState extends State<MapsScreen> {
               zoomControlsEnabled: false,
               myLocationButtonEnabled: false,
               polylines: _polylines,
+            )),
+        Positioned(
+            top: 30,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(left: 50, right: 50),
+                constraints: const BoxConstraints(maxWidth: 400),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 20,
+                          offset: Offset.zero),
+                    ]),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [Text("Text 1"), Text("Text 2")]),
+              ),
             )),
       ],
     ));

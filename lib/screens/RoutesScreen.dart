@@ -81,11 +81,9 @@ Widget createCard(
 }
 
 Widget _buildStaticMapImage(path) {
-  //var path = 'c``pEtjypUi@fAu@zA[j@mAzB';
-  print(path);
   return FadeInImage(
     image: NetworkImage(
-        'https://maps.googleapis.com/maps/api/staticmap?&type=roadmap&size=1080x720&path=color:red%7Cenc:${path}&key=AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4'),
+        'https://maps.googleapis.com/maps/api/staticmap?&type=roadmap&size=1580x520&path=color:red%7Cenc:${path}&key=AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4'),
     placeholder:
         const AssetImage('images/circular_progress_indicator_square_small.gif'),
   );
