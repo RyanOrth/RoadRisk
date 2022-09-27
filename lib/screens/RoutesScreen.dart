@@ -21,7 +21,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
         itemBuilder: (BuildContext context, int index) {
           return createCard(
             'Distance ${context.watch<RoutesModel>().savedRoutes[index].totalDistance}',
-            'Risk: ${context.watch<RoutesModel>().savedRoutes[index].totalDistance}',
+            'Risk: ${context.watch<RoutesModel>().savedRoutes[index].risk}',
             'Time: ${context.watch<RoutesModel>().savedRoutes[index].totalDuration}',
             context.watch<RoutesModel>().savedRoutes[index].encodedPolyline,
           );
@@ -59,19 +59,22 @@ Widget createCard(
           ),
         ),
         ButtonBar(
-          alignment: MainAxisAlignment.start,
+          alignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton(
               onPressed: () {
                 // Perform some action
               },
-              child: const Text('ACTION 1'), //const Color(0xFF6200EE),
+              child: const Text('Statistics'), //const Color(0xFF6200EE),
             ),
-            TextButton(
-              onPressed: () {
-                // Perform some action
-              },
-              child: const Text('ACTION 2'), //const Color(0xFF6200EE),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.delete,
+                ),
+                onPressed: (() => {}),
+              ),
             ),
           ],
         ),

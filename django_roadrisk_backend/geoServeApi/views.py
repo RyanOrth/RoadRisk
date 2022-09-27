@@ -13,7 +13,10 @@ def RouteView(request, originLat, originLong, destLat, destLong):
     # Request directions
     now = datetime.now()
     directions_result = gmaps.directions(f"{originLat},{originLong}", f"{destLat},{destLong}", mode="driving", departure_time=now) #avoid='tolls'
-    print(directions_result)
+
+    # Get risk
+    risk = 2
+
     if len(directions_result)>0:
         # Get distance
         total_distance = 0
@@ -28,7 +31,8 @@ def RouteView(request, originLat, originLong, destLat, destLong):
             "polyline":directions_result[0]["overview_polyline"]['points'],
             "decodedPolyline": polyline.decode(directions_result[0]["overview_polyline"]["points"]),
             "totalDistance":total_distance,
-            "totalDuration":total_duration
+            "totalDuration":total_duration,
+            "risk":risk,
         }
         return JsonResponse(routeJSON)
     else:
@@ -36,6 +40,7 @@ def RouteView(request, originLat, originLong, destLat, destLong):
             "bounds":0,
             "polyline":0,
             "totalDistance":0,
-            "totalDuration":0
+            "totalDuration":0,
+            "risk":0,
         }
         return JsonResponse(routeJSON)

@@ -24,15 +24,17 @@ class DirectionsRepository {
         polylineLatLongs.add(LatLng(point[0], point[1]));
       });
       var tempDirections = Directions(
-          bounds: LatLngBounds(
-              southwest: LatLng(result["bounds"]["southwest"]["lat"],
-                  result["bounds"]["southwest"]["lng"]),
-              northeast: LatLng(result["bounds"]["northeast"]["lat"],
-                  result["bounds"]["northeast"]["lng"])),
-          polylinePoints: polylineLatLongs,
-          totalDistance: result["totalDistance"].toString(),
-          totalDuration: result["totalDuration"].toString(),
-          encodedPolyline: result["polyline"]);
+        bounds: LatLngBounds(
+            southwest: LatLng(result["bounds"]["southwest"]["lat"],
+                result["bounds"]["southwest"]["lng"]),
+            northeast: LatLng(result["bounds"]["northeast"]["lat"],
+                result["bounds"]["northeast"]["lng"])),
+        polylinePoints: polylineLatLongs,
+        totalDistance: result["totalDistance"],
+        totalDuration: result["totalDuration"],
+        encodedPolyline: result["polyline"],
+        risk: result["risk"],
+      );
       return tempDirections;
     } else {
       return null;

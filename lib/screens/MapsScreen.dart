@@ -6,6 +6,7 @@ import 'package:road_risk/models/routes_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:road_risk/models/directions_model.dart';
 import 'package:road_risk/common/directions_repository.dart';
+import 'dart:math';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({super.key});
@@ -17,7 +18,7 @@ class _MapsScreenState extends State<MapsScreen> {
   late GoogleMapController mapController;
   var _markers = <Marker>{};
   var _polylines = <Polyline>{};
-  final LatLng _center = const LatLng(37.773972, -122.432917); // San Francisco
+  final LatLng _center = const LatLng(40.7128, -73.8060); // New York City
   Directions? _info;
 
   void _onMapCreated(GoogleMapController controller) {
@@ -30,12 +31,14 @@ class _MapsScreenState extends State<MapsScreen> {
       var routeModel = context.read<RoutesModel>();
       if (_info != null) {
         routeModel.addRoute(Directions(
-            bounds: _info?.bounds ??
-                LatLngBounds(southwest: LatLng(0, 0), northeast: LatLng(0, 0)),
-            polylinePoints: _info?.polylinePoints,
-            totalDistance: _info?.totalDistance ?? "",
-            totalDuration: _info?.totalDuration ?? "",
-            encodedPolyline: _info?.encodedPolyline ?? ""));
+          bounds: _info?.bounds ??
+              LatLngBounds(southwest: LatLng(0, 0), northeast: LatLng(0, 0)),
+          polylinePoints: _info?.polylinePoints,
+          totalDistance: (_info?.totalDistance ?? 0),
+          totalDuration: _info?.totalDuration ?? 0,
+          encodedPolyline: _info?.encodedPolyline ?? "",
+          risk: _info?.risk ?? 0,
+        ));
       }
       setState(() {});
     }
@@ -44,8 +47,8 @@ class _MapsScreenState extends State<MapsScreen> {
       children: [
         Scaffold(
             floatingActionButton: FloatingActionButton.extended(
-              label: Text("Add Route to Routes"),
-              icon: Icon(Icons.add),
+              label: const Text("Add Route to Routes"),
+              icon: const Icon(Icons.add),
               onPressed: _addRouteToRoutes,
             ),
             body: GoogleMap(
@@ -78,10 +81,19 @@ class _MapsScreenState extends State<MapsScreen> {
                           blurRadius: 20,
                           offset: Offset.zero),
                     ]),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [Text("Text 1"), Text("Text 2")]),
+                child: IntrinsicHeight(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Risk: ${_info?.risk ?? "0"}"),
+                        const VerticalDivider(),
+                        Text(
+                            "Time: ${_info?.totalDuration.toStringAsFixed(3) ?? "0"} Min"),
+                        const VerticalDivider(),
+                        Text("Distance: ${_info?.totalDistance ?? "0"} Meters"),
+                      ]),
+                ),
               ),
             )),
       ],
