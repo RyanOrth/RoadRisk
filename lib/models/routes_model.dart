@@ -13,8 +13,6 @@ class RoutesModel extends ChangeNotifier {
   }
 
   void removeRouteAtIndex(indexToRemoveAt) {
-    print(indexToRemoveAt);
-    print(routes);
     routes.removeAt(indexToRemoveAt);
     notifyListeners();
   }
