@@ -38,6 +38,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
   var screens = [MapsScreen(), const RoutesScreen(), const SettingsScreen()];
+  bool hasRoute = false;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -52,16 +53,32 @@ class _HomePageState extends State<HomePage> {
         child: screens[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.directions_car),
+            icon: Stack(children: <Widget>[
+              const Icon(Icons.directions_car),
+              hasRoute
+                  ? const Positioned(
+                      // draw a red marble
+                      top: 0.0,
+                      right: 0.0,
+                      child: Icon(Icons.brightness_1,
+                          size: 8.0, color: Colors.redAccent),
+                    )
+                  : const Positioned(
+                      // draw a red marble
+                      top: 0.0,
+                      right: 0.0,
+                      child: Icon(Icons.brightness_1,
+                          size: 8.0, color: Colors.blue)),
+            ]),
             label: 'Routes',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),

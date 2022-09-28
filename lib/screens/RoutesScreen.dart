@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:road_risk/models/routes_model.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class RoutesScreen extends StatefulWidget {
   const RoutesScreen({super.key});
   @override
   State<RoutesScreen> createState() => _RoutesScreenState();
 }
+
+const htmlData = r"""
+<p id='top'><a href='#'>This is the Link</a></p>
+  
+      <h1>Header 1</h1>
+      <h2>Header 2</h2>
+      <h3>Header 3</h3>
+      <h4>Header 4</h4>
+      <h5>Header 5</h5>
+      <h6>Header 6</h6>
+      <h3>This is HTML page that we want to integrate with Flutter.</h3>
+       
+""";
 
 class _RoutesScreenState extends State<RoutesScreen> {
   int randomNumber = 1;
@@ -17,7 +31,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Text(secondaryText),
+          content: Html(
+            data: htmlData,
+          ),
           actions: [
             MaterialButton(
               child: const Text("OK"),
@@ -64,7 +80,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
       child: Column(
         children: [
           ListTile(
-            leading: Icon(Icons.arrow_drop_down_circle),
+            leading: const Icon(Icons.arrow_drop_down_circle),
             title: Text(title),
             subtitle: Text(
               secondaryText,

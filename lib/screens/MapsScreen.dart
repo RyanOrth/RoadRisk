@@ -44,7 +44,11 @@ class _MapsScreenState extends State<MapsScreen> {
           risk: _info?.risk ?? 0,
         ));
       }
-      setState(() {});
+      setState(() {
+        _markers = {};
+        _polylines = {};
+      });
+      // setState(() {});
     }
 
     return (Stack(
@@ -128,7 +132,7 @@ class _MapsScreenState extends State<MapsScreen> {
       });
       setState(() {
         _markers.add(Marker(
-          markerId: MarkerId(Uuid().v4()),
+          markerId: MarkerId(const Uuid().v4()),
           infoWindow: const InfoWindow(title: "Origin"),
           draggable: true,
           position: pos,
@@ -136,7 +140,7 @@ class _MapsScreenState extends State<MapsScreen> {
         _info = null;
         _polylines = {};
         _polylines.add(Polyline(
-          polylineId: PolylineId(Uuid().v4.toString()),
+          polylineId: PolylineId(const Uuid().v4.toString()),
           points: [],
           width: 4,
           color: Colors.red,
@@ -145,7 +149,7 @@ class _MapsScreenState extends State<MapsScreen> {
     } else {
       setState(() {
         _markers.add(Marker(
-          markerId: MarkerId(Uuid().v4()),
+          markerId: MarkerId(const Uuid().v4()),
           infoWindow: const InfoWindow(title: "Destination"),
           draggable: true,
           position: pos,
@@ -162,7 +166,7 @@ class _MapsScreenState extends State<MapsScreen> {
         _info = direction;
         _polylines = {};
         _polylines.add(Polyline(
-          polylineId: PolylineId(Uuid().v4.toString()),
+          polylineId: PolylineId(const Uuid().v4.toString()),
           points: direction.polylinePoints,
           width: 4,
           color: Colors.red,
