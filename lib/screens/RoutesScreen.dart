@@ -51,20 +51,26 @@ class _RoutesScreenState extends State<RoutesScreen> {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
-      child: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: context.watch<RoutesModel>().savedRoutes.length,
-        itemBuilder: (BuildContext context, int index) {
-          return createCard(
-            'Distance ${context.watch<RoutesModel>().savedRoutes[index].totalDistance}',
-            'Risk: ${context.watch<RoutesModel>().savedRoutes[index].risk}',
-            'Time: ${context.watch<RoutesModel>().savedRoutes[index].totalDuration}',
-            context.watch<RoutesModel>().savedRoutes[index].encodedPolyline,
-            index,
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ),
+      child: context.watch<RoutesModel>().savedRoutes.isEmpty
+          ? const Text('Wow such empty!')
+          : ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: context.watch<RoutesModel>().savedRoutes.length,
+              itemBuilder: (BuildContext context, int index) {
+                return createCard(
+                  'Distance ${context.watch<RoutesModel>().savedRoutes[index].totalDistance}',
+                  'Risk: ${context.watch<RoutesModel>().savedRoutes[index].risk}',
+                  'Time: ${context.watch<RoutesModel>().savedRoutes[index].totalDuration}',
+                  context
+                      .watch<RoutesModel>()
+                      .savedRoutes[index]
+                      .encodedPolyline,
+                  index,
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+            ),
     );
   }
 
