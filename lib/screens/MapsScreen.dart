@@ -7,9 +7,14 @@ import 'package:uuid/uuid.dart';
 import 'package:road_risk/models/directions_model.dart';
 import 'package:road_risk/common/directions_repository.dart';
 import 'dart:math';
+// import 'dart:html' as html;
+// import 'package:flutter/rendering.dart';
 
 class MapsScreen extends StatefulWidget {
-  const MapsScreen({super.key});
+  final VoidCallback addNewRoute;
+
+  const MapsScreen({super.key, required this.addNewRoute});
+
   @override
   State<MapsScreen> createState() => _MapsScreenState();
 }
@@ -20,6 +25,7 @@ class _MapsScreenState extends State<MapsScreen> {
   var _polylines = <Polyline>{};
   final LatLng _center = const LatLng(40.7128, -73.8060); // New York City
   Directions? _info;
+  bool _hoveringOverAddButton = false;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -32,7 +38,8 @@ class _MapsScreenState extends State<MapsScreen> {
       if (_info != null) {
         routeModel.addRoute(Directions(
           bounds: _info?.bounds ??
-              LatLngBounds(southwest: LatLng(0, 0), northeast: LatLng(0, 0)),
+              LatLngBounds(
+                  southwest: const LatLng(0, 0), northeast: const LatLng(0, 0)),
           polylinePoints: _info?.polylinePoints,
           totalDistance: (_info?.totalDistance ?? 0),
           totalDuration: _info?.totalDuration ?? 0,
@@ -40,16 +47,36 @@ class _MapsScreenState extends State<MapsScreen> {
           risk: _info?.risk ?? 0,
         ));
       }
+      // setState(() {
+      //   _markers = {};
+      //   _polylines = {};
+      // });
+      if (_markers.length == 2 && _polylines.isNotEmpty) {
+        widget.addNewRoute();
+      }
       setState(() {});
     }
 
     return (Stack(
       children: [
         Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              label: const Text("Add Route to Routes"),
-              icon: const Icon(Icons.add),
-              onPressed: _addRouteToRoutes,
+            floatingActionButton: Container(
+              width: 200,
+              height: 200,
+              child: Center(
+                // For telling if mouse is on the button
+                child: MouseRegion(
+                  onEnter: (context) =>
+                      setState(() => _hoveringOverAddButton = true),
+                  onExit: (context) =>
+                      setState(() => _hoveringOverAddButton = false),
+                  child: FloatingActionButton.extended(
+                    label: const Text("Add Route to Routes"),
+                    icon: const Icon(Icons.add),
+                    onPressed: _addRouteToRoutes,
+                  ),
+                ),
+              ),
             ),
             body: GoogleMap(
               onMapCreated: _onMapCreated,
@@ -101,13 +128,17 @@ class _MapsScreenState extends State<MapsScreen> {
   }
 
   void _addMarker(LatLng pos) async {
+    if (_hoveringOverAddButton) {
+      // Don't place marker under button when it's clicked
+      return;
+    }
     if (_markers.isEmpty || (_markers.length == 2)) {
       setState(() {
         _markers = {};
       });
       setState(() {
         _markers.add(Marker(
-          markerId: MarkerId(Uuid().v4()),
+          markerId: MarkerId(const Uuid().v4()),
           infoWindow: const InfoWindow(title: "Origin"),
           draggable: true,
           position: pos,
@@ -115,7 +146,7 @@ class _MapsScreenState extends State<MapsScreen> {
         _info = null;
         _polylines = {};
         _polylines.add(Polyline(
-          polylineId: PolylineId(Uuid().v4.toString()),
+          polylineId: PolylineId(const Uuid().v4.toString()),
           points: [],
           width: 4,
           color: Colors.red,
@@ -124,7 +155,7 @@ class _MapsScreenState extends State<MapsScreen> {
     } else {
       setState(() {
         _markers.add(Marker(
-          markerId: MarkerId(Uuid().v4()),
+          markerId: MarkerId(const Uuid().v4()),
           infoWindow: const InfoWindow(title: "Destination"),
           draggable: true,
           position: pos,
@@ -141,7 +172,7 @@ class _MapsScreenState extends State<MapsScreen> {
         _info = direction;
         _polylines = {};
         _polylines.add(Polyline(
-          polylineId: PolylineId(Uuid().v4.toString()),
+          polylineId: PolylineId(const Uuid().v4.toString()),
           points: direction.polylinePoints,
           width: 4,
           color: Colors.red,

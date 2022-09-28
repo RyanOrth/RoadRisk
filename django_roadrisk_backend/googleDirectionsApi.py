@@ -1,6 +1,7 @@
 # Import libraries
 import googlemaps
 from datetime import datetime
+from pprint import pprint
 
 # Set coords
 coords_0 = '43.70721,-79.3955999'
@@ -15,7 +16,7 @@ directions_result = gmaps.directions(coords_0, coords_1, mode="driving", departu
 
 # Get distance
 distance = 0
-print(directions_result)
+pprint(directions_result)
 legs = directions_result[0].get("legs")
 for leg in legs:
     distance = distance + leg.get("distance").get("value")

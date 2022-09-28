@@ -37,11 +37,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
-  var screens = [MapsScreen(), const RoutesScreen(), const SettingsScreen()];
+  bool hasNewRoute = false;
+  // var screens = [
+  //   const MapsScreen(
+  //     addNewRoute: addNewRoute,
+  //   ),
+  //   const RoutesScreen(),
+  //   const SettingsScreen()
+  // ];
+
+  void addNewRoute() {
+    setState(() {
+      //Write what you want to do here
+      hasNewRoute = true;
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 1 && hasNewRoute) {
+        hasNewRoute = false;
+      }
     });
   }
 
@@ -49,19 +66,39 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: screens[_selectedIndex],
+        // child: screens[_selectedIndex],
+        child: _selectedIndex == 0
+            ? MapsScreen(addNewRoute: addNewRoute)
+            : _selectedIndex == 1
+                ? const RoutesScreen()
+                : const SettingsScreen(),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.directions_car),
+            icon: Stack(children: <Widget>[
+              const Icon(Icons.directions_car),
+              Positioned(
+                // draw a red marble
+                top: 0.0,
+                right: 0.0,
+                child: Visibility(
+                  visible: hasNewRoute,
+                  child: const Icon(
+                    Icons.brightness_1,
+                    size: 8.0,
+                    color: Colors.redAccent,
+                  ),
+                ),
+              ),
+            ]),
             label: 'Routes',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),
