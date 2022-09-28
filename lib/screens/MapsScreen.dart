@@ -51,7 +51,9 @@ class _MapsScreenState extends State<MapsScreen> {
       //   _markers = {};
       //   _polylines = {};
       // });
-      widget.addNewRoute();
+      if (_markers.length == 2 && _polylines.isNotEmpty) {
+        widget.addNewRoute();
+      }
       setState(() {});
     }
 
