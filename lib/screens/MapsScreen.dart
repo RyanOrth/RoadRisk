@@ -11,7 +11,10 @@ import 'dart:math';
 // import 'package:flutter/rendering.dart';
 
 class MapsScreen extends StatefulWidget {
-  const MapsScreen({super.key});
+  final VoidCallback addNewRoute;
+
+  const MapsScreen({super.key, required this.addNewRoute});
+
   @override
   State<MapsScreen> createState() => _MapsScreenState();
 }
@@ -48,6 +51,7 @@ class _MapsScreenState extends State<MapsScreen> {
       //   _markers = {};
       //   _polylines = {};
       // });
+      widget.addNewRoute();
       setState(() {});
     }
 
