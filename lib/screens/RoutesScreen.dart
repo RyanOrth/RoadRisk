@@ -9,8 +9,6 @@ class RoutesScreen extends StatefulWidget {
 }
 
 class _RoutesScreenState extends State<RoutesScreen> {
-  int randomNumber = 1;
-
   @override
   Widget build(BuildContext context) {
     return Align(
