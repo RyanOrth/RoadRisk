@@ -11,6 +11,26 @@ class RoutesScreen extends StatefulWidget {
 class _RoutesScreenState extends State<RoutesScreen> {
   int randomNumber = 1;
 
+  void _showDialog(BuildContext context, title, secondaryText, bodyText) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(secondaryText),
+          actions: [
+            MaterialButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -65,6 +85,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
               TextButton(
                 onPressed: () {
                   // Perform some action
+                  _showDialog(context, title, secondaryText, bodyText);
                 },
                 child: const Text('Statistics'), //const Color(0xFF6200EE),
               ),
