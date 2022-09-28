@@ -44,11 +44,11 @@ class _MapsScreenState extends State<MapsScreen> {
           risk: _info?.risk ?? 0,
         ));
       }
-      setState(() {
-        _markers = {};
-        _polylines = {};
-      });
-      // setState(() {});
+      // setState(() {
+      //   _markers = {};
+      //   _polylines = {};
+      // });
+      setState(() {});
     }
 
     return (Stack(
