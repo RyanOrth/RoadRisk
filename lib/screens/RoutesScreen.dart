@@ -67,6 +67,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
                   context.watch<RoutesModel>().savedRoutes[index].totalDistance,
                   context.watch<RoutesModel>().savedRoutes[index].totalDuration,
                   context.watch<RoutesModel>().savedRoutes[index].risk,
+                  (index % 2) == 0,
                   context
                       .watch<RoutesModel>()
                       .savedRoutes[index]
@@ -91,6 +92,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
     distance,
     duration,
     risk,
+    accurateRisk,
     encodedPolyline,
     indexOfRouteInModel,
     polylinePoints,
@@ -101,13 +103,22 @@ class _RoutesScreenState extends State<RoutesScreen> {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.arrow_drop_down_circle),
+            leading: accurateRisk
+                ? const Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                  )
+                : Icon(
+                    Icons.warning,
+                    color: Colors.orange.shade300,
+                  ),
             title: Text(title),
             subtitle: Text(
               secondaryText,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),
+          // work on correct zoom -Past Garrett
           _buildMapImage(polylinePoints, context),
           Padding(
             padding: const EdgeInsets.all(16.0),
