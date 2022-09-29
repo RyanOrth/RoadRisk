@@ -10,6 +10,7 @@ class RoutesScreen extends StatefulWidget {
   State<RoutesScreen> createState() => _RoutesScreenState();
 }
 
+/// Contains popup for information about the inherint statistics
 class _RoutesScreenState extends State<RoutesScreen> {
   void _showDialog(BuildContext context) {
     showDialog(
@@ -32,6 +33,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
     );
   }
 
+  /// Contains popup for showing user why risk may be inaccurate
   void _showDialogWarningMessage(BuildContext context) {
     showDialog(
       context: context,

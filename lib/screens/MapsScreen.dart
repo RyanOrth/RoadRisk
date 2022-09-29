@@ -20,14 +20,28 @@ class MapsScreen extends StatefulWidget {
 
 class _MapsScreenState extends State<MapsScreen> {
   final mapController = MapController();
+
+  /// List of the red pin markers that are dropped on the map
+  ///
+  /// Should only ever have one or two in the list, contains zero upon
+  /// startup and when switching to the MapScreen
   var _markers = <Marker>[];
+
+  /// List of lines that form the generated route
   var _polylines = <Polyline>[];
+
+  /// Where the map opens to
   final LatLng _center = LatLng(40.7128, -73.8060); // New York City
+
   Directions? _info;
+
+  /// Whether the mouse is currently over the add Routes button.
+  /// Used for stopping dropping a pin below the button
   bool _hoveringOverAddButton = false;
 
   @override
   Widget build(BuildContext context) {
+    /// Add generated route to list of saved routes
     void _addRouteToRoutes() {
       var routeModel = context.read<RoutesModel>();
       if (_info != null) {
@@ -92,6 +106,9 @@ class _MapsScreenState extends State<MapsScreen> {
     ));
   }
 
+  /// Widget at top of the screen
+  ///
+  /// Shows information about the generated route
   Widget infoPill() {
     return Positioned(
       top: 30,
@@ -129,6 +146,11 @@ class _MapsScreenState extends State<MapsScreen> {
     );
   }
 
+  /// Adds a marker at the given location.
+  ///
+  /// Will not add if mouse over add Route button. If two markers
+  /// are down, they get removed and then the new one is placed at
+  /// the selected new location.
   void _addMarker(tapPos, LatLng pos) async {
     if (_hoveringOverAddButton) {
       // Don't place marker under button when it's clicked
