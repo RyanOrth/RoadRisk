@@ -38,10 +38,13 @@ dependencies:
   uuid: 3.0.6
   http: ^0.13.5
   flutter_polyline_points: ^1.0.0
-  google_polyline_algorithm: ^3.1.0
-  google_maps_flutter: ^2.0.2
-  google_maps_flutter_web: ^0.4.0+2
+  #google_polyline_algorithm: ^3.1.0
+  #google_maps_flutter_web: ^0.4.0+2
   flutter_html: ^2.2.1
+  flutter_map: ^3.0.0
+  latlng: ^0.2.0
+  latlong2: any
+
 
 dev_dependencies:
   flutter_test:

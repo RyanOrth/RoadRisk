@@ -1,13 +1,14 @@
 import 'package:road_risk/.env.dart';
 import 'package:road_risk/models/directions_model.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart';
 
 class DirectionsRepository {
-  PolylinePoints polylinePoints = PolylinePoints();
-  final String googleApiKey = 'AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4';
+  //PolylinePoints polylinePoints = PolylinePoints();
+  //final String googleApiKey = 'AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4';
   List<List<num>> polylineCoordinates = [];
   List<LatLng> polylineLatLongs = [];
 
@@ -24,11 +25,13 @@ class DirectionsRepository {
         polylineLatLongs.add(LatLng(point[0], point[1]));
       });
       var tempDirections = Directions(
+        /*
         bounds: LatLngBounds(
             southwest: LatLng(result["bounds"]["southwest"]["lat"],
                 result["bounds"]["southwest"]["lng"]),
             northeast: LatLng(result["bounds"]["northeast"]["lat"],
                 result["bounds"]["northeast"]["lng"])),
+                */
         polylinePoints: polylineLatLongs,
         totalDistance: result["totalDistance"],
         totalDuration: result["totalDuration"],
