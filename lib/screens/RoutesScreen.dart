@@ -32,6 +32,27 @@ class _RoutesScreenState extends State<RoutesScreen> {
     );
   }
 
+  void _showDialogWarningMessage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Info About Risk"),
+          content: const Text(
+              'This is not in the know risk area and shown risk is a wild guess'),
+          actions: [
+            MaterialButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -67,7 +88,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
                   context.watch<RoutesModel>().savedRoutes[index].totalDistance,
                   context.watch<RoutesModel>().savedRoutes[index].totalDuration,
                   context.watch<RoutesModel>().savedRoutes[index].risk,
-                  (index % 2) == 0,
+                  (index % 2) ==
+                      0, // TODO: Once accurate risk is implememted delete this ternary and uncomment below
+                  // context.watch<RoutesModel>().savedRoutes[index].accurateRisk,
                   context
                       .watch<RoutesModel>()
                       .savedRoutes[index]
@@ -108,9 +131,15 @@ class _RoutesScreenState extends State<RoutesScreen> {
                     Icons.check_circle,
                     color: Colors.green,
                   )
-                : Icon(
-                    Icons.warning,
-                    color: Colors.orange.shade300,
+                : IconButton(
+                    icon: Icon(
+                      Icons.warning,
+                      color: Colors.orange.shade300,
+                    ),
+                    onPressed: () {
+                      // Perform some action
+                      _showDialogWarningMessage(context);
+                    },
                   ),
             title: Text(title),
             subtitle: Text(
