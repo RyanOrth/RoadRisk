@@ -142,9 +142,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
         height: MediaQuery.of(context).size.width * 0.35,
         child: FlutterMap(
           options: MapOptions(
-            absorbPanEventsOnScrollables: true,
-            center: polylinePoints[0],
-            zoom: 10,
+            enableScrollWheel: false,
+            center: polylinePoints[(polylinePoints.length / 2).round()],
+            zoom: 8,
           ),
           children: [
             TileLayer(
