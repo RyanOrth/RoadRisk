@@ -37,7 +37,26 @@ class _RoutesScreenState extends State<RoutesScreen> {
     return Align(
       alignment: Alignment.topCenter,
       child: context.watch<RoutesModel>().savedRoutes.isEmpty
-          ? const Text('Wow such empty!')
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    "Wow, such empty!",
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                  Icon(
+                    Icons.rocket_launch,
+                    size: 64,
+                    color: Colors.blueGrey,
+                  ),
+                ],
+              ),
+            )
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: context.watch<RoutesModel>().savedRoutes.length,
@@ -94,19 +113,19 @@ class _RoutesScreenState extends State<RoutesScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               Text(
-                'Distance: ${distance} meters',
+                'Distance: $distance meters',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
-              Divider(),
+              const Divider(),
               Text(
                 'Duration: ${duration.toStringAsFixed(3)} min',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
-              Divider(),
+              const Divider(),
               Text(
-                'Risk: ${risk} crashes annually per AADT',
+                'Risk: $risk crashes annually per AADT',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
