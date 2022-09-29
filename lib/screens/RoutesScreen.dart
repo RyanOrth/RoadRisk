@@ -10,19 +10,6 @@ class RoutesScreen extends StatefulWidget {
   State<RoutesScreen> createState() => _RoutesScreenState();
 }
 
-const htmlData = r"""
-<p id='top'><a href='#'>This is the Link</a></p>
-  
-      <h1>Header 1</h1>
-      <h2>Header 2</h2>
-      <h3>Header 3</h3>
-      <h4>Header 4</h4>
-      <h5>Header 5</h5>
-      <h6>Header 6</h6>
-      <h3>This is HTML page that we want to integrate with Flutter.</h3>
-       
-""";
-
 class _RoutesScreenState extends State<RoutesScreen> {
   void _showDialog(BuildContext context, title, secondaryText, bodyText) {
     showDialog(
@@ -30,9 +17,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Html(
-            data: htmlData,
-          ),
+          content: Text("content"),
           actions: [
             MaterialButton(
               child: const Text("OK"),
@@ -161,13 +146,5 @@ class _RoutesScreenState extends State<RoutesScreen> {
             ),
           ],
         ));
-
-    /*
-    return FadeInImage(
-      image: NetworkImage(
-          'https://maps.googleapis.com/maps/api/staticmap?&type=roadmap&size=1580x520&path=color:red%7Cenc:${path}&key=AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4'),
-      placeholder: const AssetImage(
-          'images/circular_progress_indicator_square_small.gif'),
-    );*/
   }
 }

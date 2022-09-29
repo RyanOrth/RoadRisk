@@ -98,8 +98,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Routes',
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.info),
+            label: 'Tutorial',
           ),
         ],
         currentIndex: _selectedIndex,

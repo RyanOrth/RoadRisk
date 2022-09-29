@@ -7,8 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 
 class DirectionsRepository {
-  //PolylinePoints polylinePoints = PolylinePoints();
-  //final String googleApiKey = 'AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4';
   List<List<num>> polylineCoordinates = [];
   List<LatLng> polylineLatLongs = [];
 
@@ -25,13 +23,6 @@ class DirectionsRepository {
         polylineLatLongs.add(LatLng(point[0], point[1]));
       });
       var tempDirections = Directions(
-        /*
-        bounds: LatLngBounds(
-            southwest: LatLng(result["bounds"]["southwest"]["lat"],
-                result["bounds"]["southwest"]["lng"]),
-            northeast: LatLng(result["bounds"]["northeast"]["lat"],
-                result["bounds"]["northeast"]["lng"])),
-                */
         polylinePoints: polylineLatLongs,
         totalDistance: result["totalDistance"],
         totalDuration: result["totalDuration"],

@@ -32,11 +32,6 @@ class _MapsScreenState extends State<MapsScreen> {
       var routeModel = context.read<RoutesModel>();
       if (_info != null) {
         routeModel.addRoute(Directions(
-          /*
-          bounds: _info?.bounds ??
-              LatLngBounds(
-                  southwest: const LatLng(0, 0), northeast: const LatLng(0, 0)),
-                  */
           polylinePoints: _info?.polylinePoints,
           totalDistance: (_info?.totalDistance ?? 0),
           totalDuration: _info?.totalDuration ?? 0,
@@ -91,19 +86,6 @@ class _MapsScreenState extends State<MapsScreen> {
               ),
             ],
           ),
-          /*
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-              markers: _markers,
-              onTap: _addMarker,
-              zoomControlsEnabled: false,
-              myLocationButtonEnabled: false,
-              polylines: _polylines,
-            ),*/
         ),
         infoPill(),
       ],
@@ -168,14 +150,6 @@ class _MapsScreenState extends State<MapsScreen> {
         );
         _info = null;
         _polylines = [];
-        /*
-        _polylines.add(Polyline(
-          //polylineId: PolylineId(const Uuid().v4.toString()),
-          points: [],
-          //width: 4,
-          color: Colors.red,
-        ));
-        */
       });
     } else {
       setState(() {
@@ -188,12 +162,6 @@ class _MapsScreenState extends State<MapsScreen> {
             ),
           ),
         );
-        /*Marker(
-          markerId: MarkerId(const Uuid().v4()),
-          infoWindow: const InfoWindow(title: "Destination"),
-          draggable: true,
-          position: pos,
-        ));*/
       });
     }
 
@@ -204,28 +172,11 @@ class _MapsScreenState extends State<MapsScreen> {
         _info = directions;
         _polylines = [];
         _polylines.add(Polyline(
-          //polylineId: PolylineId(const Uuid().v4.toString()),
           points: directions?.polylinePoints,
-          //width: 4,
           color: Colors.red,
-          strokeWidth: 5,
+          strokeWidth: 3,
         ));
       });
     }
-    /*
-    directions.then((direction) {
-      print(direction);
-      setState(() {
-        _info = direction;
-        _polylines = [];
-        _polylines.add(Polyline(
-          //polylineId: PolylineId(const Uuid().v4.toString()),
-          points: direction.polylinePoints,
-          //width: 4,
-          color: Colors.red,
-        ));
-      });
-    });
-  */
   }
 }
