@@ -94,13 +94,13 @@ class _RoutesScreenState extends State<RoutesScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               Text(
-                'Distance: ${distance}m',
+                'Distance: ${distance} meters',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
               Divider(),
               Text(
-                'Duration: ${duration.toStringAsFixed(3)}min',
+                'Duration: ${duration.toStringAsFixed(3)} min',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
