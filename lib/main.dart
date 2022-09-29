@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:road_risk/screens/MapsScreen.dart';
 import 'package:road_risk/screens/RoutesScreen.dart';
 import 'package:road_risk/screens/SettingsScreen.dart';
-//import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_risk/models/routes_model.dart';
 import 'package:provider/provider.dart';
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:road_risk/models/routes_model.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 class RoutesScreen extends StatefulWidget {
   const RoutesScreen({super.key});
@@ -64,6 +65,11 @@ class _RoutesScreenState extends State<RoutesScreen> {
                       .savedRoutes[index]
                       .encodedPolyline,
                   index,
+                  context
+                      .watch<RoutesModel>()
+                      .savedRoutes[index]
+                      .polylinePoints,
+                  context,
                 );
               },
               separatorBuilder: (BuildContext context, int index) =>
@@ -76,8 +82,10 @@ class _RoutesScreenState extends State<RoutesScreen> {
     title,
     secondaryText,
     bodyText,
-    polyline,
+    encodedPolyline,
     indexOfRouteInModel,
+    polylinePoints,
+    context,
   ) {
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -91,7 +99,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),
-          _buildStaticMapImage(polyline),
+          _buildMapImage(polylinePoints, context),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -128,12 +136,38 @@ class _RoutesScreenState extends State<RoutesScreen> {
     );
   }
 
-  Widget _buildStaticMapImage(path) {
+  Widget _buildMapImage(polylinePoints, context) {
+    return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.80,
+        height: MediaQuery.of(context).size.width * 0.35,
+        child: FlutterMap(
+          options: MapOptions(
+            absorbPanEventsOnScrollables: true,
+            center: polylinePoints[0],
+            zoom: 10,
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            ),
+            PolylineLayer(
+              polylines: [
+                Polyline(
+                  points: polylinePoints,
+                  color: Colors.red,
+                  strokeWidth: 5,
+                ),
+              ],
+            ),
+          ],
+        ));
+
+    /*
     return FadeInImage(
       image: NetworkImage(
           'https://maps.googleapis.com/maps/api/staticmap?&type=roadmap&size=1580x520&path=color:red%7Cenc:${path}&key=AIzaSyAExn3Qa217QIG0it7y5KwFWWPkJmTgcF4'),
       placeholder: const AssetImage(
           'images/circular_progress_indicator_square_small.gif'),
-    );
+    );*/
   }
 }

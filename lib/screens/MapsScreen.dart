@@ -1,18 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-//import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_risk/models/routes_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:road_risk/models/directions_model.dart';
 import 'package:road_risk/common/directions_repository.dart';
 import 'dart:math';
 import 'package:flutter_map/flutter_map.dart';
-//import 'package:latlng/latlng.dart';
 import 'package:latlong2/latlong.dart';
-
-// import 'dart:html' as html;
-// import 'package:flutter/rendering.dart';
 
 class MapsScreen extends StatefulWidget {
   final VoidCallback addNewRoute;
@@ -75,7 +70,7 @@ class _MapsScreenState extends State<MapsScreen> {
                 child: FloatingActionButton.extended(
                   label: const Text("Add Route to Routes"),
                   icon: const Icon(Icons.add),
-                  onPressed: () {}, //_addRouteToRoutes,
+                  onPressed: _addRouteToRoutes,
                 ),
               ),
             ),
