@@ -101,7 +101,7 @@ class _MapsScreenState extends State<MapsScreen> {
         child: Container(
           padding: const EdgeInsets.all(10),
           margin: const EdgeInsets.only(left: 50, right: 50),
-          constraints: const BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 700),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -116,7 +116,7 @@ class _MapsScreenState extends State<MapsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Risk: ${_info?.risk ?? "0"}"),
+                  Text("Risk: ${_info?.risk ?? "0"} Crash/AADT"),
                   const VerticalDivider(),
                   Text(
                       "Time: ${_info?.totalDuration.toStringAsFixed(3) ?? "0"} Min"),

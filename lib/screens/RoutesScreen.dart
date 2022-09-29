@@ -106,7 +106,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
               ),
               Divider(),
               Text(
-                'Risk: ${risk} crashes per AADT',
+                'Risk: ${risk} crashes annually per AADT',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
