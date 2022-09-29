@@ -5,6 +5,7 @@ class Directions {
   final double totalDuration;
   final String encodedPolyline;
   final double risk;
+  final bool accurateRisk;
 
   Directions({
     //required this.bounds,
@@ -13,5 +14,6 @@ class Directions {
     required this.totalDuration,
     required this.encodedPolyline,
     required this.risk,
+    required this.accurateRisk,
   });
 }

@@ -1,6 +1,5 @@
 import 'package:road_risk/.env.dart';
 import 'package:road_risk/models/directions_model.dart';
-//import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -28,6 +27,7 @@ class DirectionsRepository {
         totalDuration: result["totalDuration"],
         encodedPolyline: result["polyline"],
         risk: result["risk"],
+        accurateRisk: true,
       );
       return tempDirections;
     } else {
