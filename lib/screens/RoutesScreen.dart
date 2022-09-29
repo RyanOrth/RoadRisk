@@ -11,13 +11,14 @@ class RoutesScreen extends StatefulWidget {
 }
 
 class _RoutesScreenState extends State<RoutesScreen> {
-  void _showDialog(BuildContext context, title, secondaryText, bodyText) {
+  void _showDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
-          content: Text("content"),
+          title: const Text("Info About Statistics"),
+          content: const Text(
+              "All distances are in meters, all times are in minutes, and all risk is in crashes per AADT. AADT stands for Annual Average Daily Traffic. AADT was needed to normalize the risk for each part of the path traveled over as this is a common way to normalize crash risk against the amount of people exposed to the risk. Data isn't directly retrieved from each road but is binned into squares for easier access. There is also an adjustment to the risk score based on the time of day you are driving."),
           actions: [
             MaterialButton(
               child: const Text("OK"),
@@ -42,9 +43,11 @@ class _RoutesScreenState extends State<RoutesScreen> {
               itemCount: context.watch<RoutesModel>().savedRoutes.length,
               itemBuilder: (BuildContext context, int index) {
                 return createCard(
-                  'Distance ${context.watch<RoutesModel>().savedRoutes[index].totalDistance}',
-                  'Risk: ${context.watch<RoutesModel>().savedRoutes[index].risk}',
-                  'Time: ${context.watch<RoutesModel>().savedRoutes[index].totalDuration}',
+                  "Saved Route ${index + 1}",
+                  'Of ${context.watch<RoutesModel>().savedRoutes.length}',
+                  context.watch<RoutesModel>().savedRoutes[index].totalDistance,
+                  context.watch<RoutesModel>().savedRoutes[index].totalDuration,
+                  context.watch<RoutesModel>().savedRoutes[index].risk,
                   context
                       .watch<RoutesModel>()
                       .savedRoutes[index]
@@ -66,7 +69,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
   Widget createCard(
     title,
     secondaryText,
-    bodyText,
+    distance,
+    duration,
+    risk,
     encodedPolyline,
     indexOfRouteInModel,
     polylinePoints,
@@ -87,10 +92,25 @@ class _RoutesScreenState extends State<RoutesScreen> {
           _buildMapImage(polylinePoints, context),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              bodyText,
-              style: TextStyle(color: Colors.black.withOpacity(0.6)),
-            ),
+            child: Column(children: [
+              Text(
+                'Distance: ${distance}m',
+                style: TextStyle(
+                    color: Colors.black.withOpacity(0.9), fontSize: 20),
+              ),
+              Divider(),
+              Text(
+                'Duration: ${duration.toStringAsFixed(3)}min',
+                style: TextStyle(
+                    color: Colors.black.withOpacity(0.9), fontSize: 20),
+              ),
+              Divider(),
+              Text(
+                'Risk: ${risk} crashes per AADT',
+                style: TextStyle(
+                    color: Colors.black.withOpacity(0.9), fontSize: 20),
+              ),
+            ]),
           ),
           ButtonBar(
             alignment: MainAxisAlignment.spaceBetween,
@@ -98,9 +118,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
               TextButton(
                 onPressed: () {
                   // Perform some action
-                  _showDialog(context, title, secondaryText, bodyText);
+                  _showDialog(context);
                 },
-                child: const Text('Statistics'), //const Color(0xFF6200EE),
+                child: const Text('Info About Statistics'),
               ),
               Align(
                 alignment: Alignment.centerRight,
