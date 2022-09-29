@@ -10,6 +10,7 @@ class RoutesScreen extends StatefulWidget {
   State<RoutesScreen> createState() => _RoutesScreenState();
 }
 
+/// Contains popup for information about the inherint statistics
 class _RoutesScreenState extends State<RoutesScreen> {
   void _showDialog(BuildContext context) {
     showDialog(
@@ -32,12 +33,53 @@ class _RoutesScreenState extends State<RoutesScreen> {
     );
   }
 
+  /// Contains popup for showing user why risk may be inaccurate
+  void _showDialogWarningMessage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Info About Risk"),
+          content: const Text(
+              'This is not in the know risk area and shown risk is a wild guess'),
+          actions: [
+            MaterialButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
       child: context.watch<RoutesModel>().savedRoutes.isEmpty
-          ? const Text('Wow such empty!')
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    "Wow, such empty!",
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                  Icon(
+                    Icons.rocket_launch,
+                    size: 64,
+                    color: Colors.blueGrey,
+                  ),
+                ],
+              ),
+            )
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: context.watch<RoutesModel>().savedRoutes.length,
@@ -48,6 +90,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
                   context.watch<RoutesModel>().savedRoutes[index].totalDistance,
                   context.watch<RoutesModel>().savedRoutes[index].totalDuration,
                   context.watch<RoutesModel>().savedRoutes[index].risk,
+                  (index % 2) ==
+                      0, // TODO: Once accurate risk is implememted delete this ternary and uncomment below
+                  // context.watch<RoutesModel>().savedRoutes[index].accurateRisk,
                   context
                       .watch<RoutesModel>()
                       .savedRoutes[index]
@@ -72,6 +117,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
     distance,
     duration,
     risk,
+    accurateRisk,
     encodedPolyline,
     indexOfRouteInModel,
     polylinePoints,
@@ -82,31 +128,46 @@ class _RoutesScreenState extends State<RoutesScreen> {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.arrow_drop_down_circle),
+            leading: accurateRisk
+                ? const Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                  )
+                : IconButton(
+                    icon: Icon(
+                      Icons.warning,
+                      color: Colors.orange.shade300,
+                    ),
+                    onPressed: () {
+                      // Perform some action
+                      _showDialogWarningMessage(context);
+                    },
+                  ),
             title: Text(title),
             subtitle: Text(
               secondaryText,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),
+          // work on correct zoom -Past Garrett
           _buildMapImage(polylinePoints, context),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               Text(
-                'Distance: ${distance} meters',
+                'Distance: $distance meters',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
-              Divider(),
+              const Divider(),
               Text(
                 'Duration: ${duration.toStringAsFixed(3)} min',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
-              Divider(),
+              const Divider(),
               Text(
-                'Risk: ${risk} crashes annually per AADT',
+                'Risk: $risk crashes annually per AADT',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
