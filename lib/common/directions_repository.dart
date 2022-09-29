@@ -24,10 +24,10 @@ class DirectionsRepository {
       });
       var tempDirections = Directions(
         polylinePoints: polylineLatLongs,
-        totalDistance: result["totalDistance"],
-        totalDuration: result["totalDuration"],
+        totalDistance: result["totalDistance"].toDouble(),
+        totalDuration: result["totalDuration"].toDouble(),
         encodedPolyline: result["polyline"],
-        risk: result["risk"],
+        risk: result["risk"].toDouble(),
       );
       return tempDirections;
     } else {
