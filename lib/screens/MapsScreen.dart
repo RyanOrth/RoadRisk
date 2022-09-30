@@ -51,7 +51,7 @@ class _MapsScreenState extends State<MapsScreen> {
           totalDuration: _info?.totalDuration ?? 0,
           encodedPolyline: _info?.encodedPolyline ?? "",
           risk: _info?.risk ?? 0,
-          accurateRisk: true,
+          accurateRisk: _info?.accurateRisk ?? false,
         ));
       }
       // setState(() {
@@ -134,7 +134,7 @@ class _MapsScreenState extends State<MapsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Risk: ${_info?.risk ?? "0"} Crashes/AADT"),
+                  Text("Risk: ${_info?.risk ?? "0"} Crash/AADT"),
                   const VerticalDivider(),
                   Text(
                       "Time: ${_info?.totalDuration.toStringAsFixed(3) ?? "0"} Min"),
