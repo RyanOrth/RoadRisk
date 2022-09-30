@@ -59,7 +59,7 @@ def RouteView(request, originLat, originLong, destLat, destLong):
             "polyline":routes['routes'][0]['geometry'],
             "decodedPolyline": decoded_polyline,
             "totalDistance":routes['routes'][0]['summary']['distance'],
-            "totalDuration":routes['routes'][0]['summary']['duration'],
+            "totalDuration":routes['routes'][0]['summary']['duration']//60,
             "risk":risk,
         }
         return JsonResponse(routeJSON)
