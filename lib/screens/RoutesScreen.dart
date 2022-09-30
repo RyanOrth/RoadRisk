@@ -41,7 +41,8 @@ class _RoutesScreenState extends State<RoutesScreen> {
         return AlertDialog(
           title: const Text("Info About Risk"),
           content: const Text(
-              'This is not in the know risk area and shown risk is a wild guess'),
+            'This is not in the know risk area and shown risk is a wild guess', // TODO: CHANGE this text
+          ),
           actions: [
             MaterialButton(
               child: const Text("OK"),
@@ -126,21 +127,20 @@ class _RoutesScreenState extends State<RoutesScreen> {
       child: Column(
         children: [
           ListTile(
-            leading: accurateRisk
+            leading: risk >= 0.01 // TODO: get gud numbers for these
                 ? const Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
+                    Icons.report,
+                    color: Colors.red,
                   )
-                : IconButton(
-                    icon: Icon(
-                      Icons.warning,
-                      color: Colors.orange.shade300,
-                    ),
-                    onPressed: () {
-                      // Perform some action
-                      _showDialogWarningMessage(context);
-                    },
-                  ),
+                : risk >= 0.005
+                    ? Icon(
+                        Icons.warning,
+                        color: Colors.orange.shade300,
+                      )
+                    : const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      ),
             title: Text(title),
             subtitle: Text(
               secondaryText,
@@ -164,11 +164,45 @@ class _RoutesScreenState extends State<RoutesScreen> {
                     color: Colors.black.withOpacity(0.9), fontSize: 20),
               ),
               const Divider(),
-              Text(
-                'Risk: ${risk.toStringAsFixed(5)} crashes annually per AADT',
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.9), fontSize: 20),
-              ),
+              accurateRisk
+                  ? Text(
+                      'Risk: ${risk.toStringAsFixed(5)} crashes annually per AADT',
+                      style: TextStyle(
+                          color: Colors.black.withOpacity(0.9), fontSize: 20),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.warning,
+                                color: Colors.amber.shade300,
+                              ),
+                              onPressed: () =>
+                                  _showDialogWarningMessage(context),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            'Risk: ${risk.toStringAsFixed(5)} crashes annually per AADT',
+                            style: TextStyle(
+                                color: Colors.black.withOpacity(0.9),
+                                fontSize: 20),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Container(),
+                        ),
+                      ],
+                    ),
             ]),
           ),
           ButtonBar(

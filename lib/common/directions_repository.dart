@@ -86,8 +86,6 @@ class DirectionsRepository {
       result["decodedPolyline"].forEach((point) {
         polylineCoordinates.add([point[0], point[1]]);
         polylineLatLongs.add(LatLng(point[0], point[1]));
-        // print(_isPointInPolygon(LatLng(point[0], point[1]), newYork));
-        // print("${point[0]},${point[1]}");
         // if (accurateRisk &&
         //     _isPointInPolygon(LatLng(point[0], point[1]), newYork)) {
         //   accurateRisk = false;
