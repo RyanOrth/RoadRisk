@@ -101,8 +101,8 @@ class _MapsScreenState extends State<MapsScreen> {
                     points: newYork,
                     color: Color.fromARGB(82, 129, 253, 177),
                     borderColor: Colors.green,
-                    isFilled: true,
-                    borderStrokeWidth: 2,
+                    isFilled: false,
+                    borderStrokeWidth: 3,
                   )
                 ],
               ),

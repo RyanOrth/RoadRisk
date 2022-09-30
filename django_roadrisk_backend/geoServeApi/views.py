@@ -53,6 +53,9 @@ def RouteView(request, originLat, originLong, destLat, destLong):
     # Get risk
     decoded_polyline = polyline.decode(routes['routes'][0]['geometry'])
     risk = risk_along_path(decoded_polyline)
+    '''calculated that there is always at least a minimum risk of .00001 based on this article and the minimum traffic a road in New York, https://mirmanlawyers.com/new-york-car-accident-lawyer/statistics/#:~:text=a%20NYC%20Crash%3F-,Total%20Reported%20Collisions%20in%20New%20York%20City,every%20single%20day%20in%20NYC'''
+    if float(risk) < .00001:
+        risk = .00001
 
     if len(routes['routes'][0]['summary'])>0:
         routeJSON = {
