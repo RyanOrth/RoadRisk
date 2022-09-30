@@ -6,3 +6,12 @@ class FloatUrlParameterConverter:
 
     def to_url(self, value):
         return str(value)
+
+class BooleanUrlParameterConverter:
+    regex = '(True)|(False)'
+
+    def to_python(self, value):
+        return bool(value)
+
+    def to_url(self, value):
+        return str(value)

@@ -42,12 +42,13 @@ def risk_along_path(points):
 
 print("Risk datasets import complete")
 
-def RouteView(request, originLat, originLong, destLat, destLong):
+def RouteView(request, originLat, originLong, destLat, destLong, getAlts=False):
     return_dictionary = {}
     # Init client
     coords = ((originLong,originLat),(destLong,destLat))
     client = openrouteservice.Client(key='5b3ce3597851110001cf6248157eaf13dcb64422b471b18d03ea2c30') # Specify your personal API key
     routes = client.directions(coords)
+    alt = client.directions(coords, alternative_routes={"share_factor":0.8,"target_count":3,"weight_factor":2})
     #print(routes)
 
     # Get risk
