@@ -34,15 +34,13 @@ class _RoutesScreenState extends State<RoutesScreen> {
   }
 
   /// Contains popup for showing user why risk may be inaccurate
-  void _showDialogWarningMessage(BuildContext context) {
+  void _showDialogWarningMessage(BuildContext context, msg) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Info About Risk"),
-          content: const Text(
-            'This is not in the know risk area and shown risk is a wild guess', // TODO: CHANGE this text
-          ),
+          content: Text(msg),
           actions: [
             MaterialButton(
               child: const Text("OK"),
@@ -127,20 +125,29 @@ class _RoutesScreenState extends State<RoutesScreen> {
       child: Column(
         children: [
           ListTile(
-            leading: risk >= 0.01 // TODO: get gud numbers for these
-                ? const Icon(
-                    Icons.report,
-                    color: Colors.red,
-                  )
+            leading: risk >= 0.008
+                ? IconButton(
+                    onPressed: () => _showDialogWarningMessage(
+                        context, "High level of risk(greater than 0.008)"),
+                    icon: const Icon(
+                      Icons.report,
+                      color: Colors.red,
+                    ))
                 : risk >= 0.005
-                    ? Icon(
-                        Icons.warning,
-                        color: Colors.orange.shade300,
-                      )
-                    : const Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      ),
+                    ? IconButton(
+                        onPressed: () => _showDialogWarningMessage(context,
+                            "Moderate level of risk(greater than 0.005)"),
+                        icon: Icon(
+                          Icons.warning,
+                          color: Colors.orange.shade300,
+                        ))
+                    : IconButton(
+                        onPressed: () => _showDialogWarningMessage(
+                            context, "Low level of risk(less than 0.005)"),
+                        icon: const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                        )),
             title: Text(title),
             subtitle: Text(
               secondaryText,
@@ -183,8 +190,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                 Icons.warning,
                                 color: Colors.amber.shade300,
                               ),
-                              onPressed: () =>
-                                  _showDialogWarningMessage(context),
+                              onPressed: () => _showDialogWarningMessage(
+                                  context,
+                                  'Because this route goes outside of the bounds of our data (NYC), the quality of the risk score may vary.'),
                             ),
                           ),
                         ),
