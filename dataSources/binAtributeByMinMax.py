@@ -194,10 +194,10 @@ class ExampleProcessingAlgorithm(QgsProcessingAlgorithm):
         newUnits = QgsCoordinateReferenceSystem("OGC:CRS84h") #4326==GPS 
         transform = QgsCoordinateTransform(baseUnits, newUnits, QgsProject.instance())
         basketedData = {}
-        minLat = -80
-        maxLat = -71.5
-        minLong = 40
-        maxLong = 45.5
+        minLong = -80
+        maxLong = -71.5
+        minLat = 40
+        maxLat = 45.5
         lod = 649.35 # This LOD gets us squares about the size of a block in NYC
         distanceBetweenPointsOnLine = 75 # uses cartesian distance
         numberBasketsLat = int((maxLat-minLat)*lod)
