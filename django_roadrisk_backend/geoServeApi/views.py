@@ -54,7 +54,7 @@ def RouteView(request, originLat, originLong, destLat, destLong):
     decoded_polyline = polyline.decode(routes['routes'][0]['geometry'])
     risk = risk_along_path(decoded_polyline)
 
-    if len(routes['routes'])>0:
+    if len(routes['routes'][0]['summary'])>0:
         routeJSON = {
             "polyline":routes['routes'][0]['geometry'],
             "decodedPolyline": decoded_polyline,
