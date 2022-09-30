@@ -51,7 +51,7 @@ class _MapsScreenState extends State<MapsScreen> {
           totalDuration: _info?.totalDuration ?? 0,
           encodedPolyline: _info?.encodedPolyline ?? "",
           risk: _info?.risk ?? 0,
-          accurateRisk: true,
+          accurateRisk: _info?.accurateRisk ?? false,
         ));
       }
       // setState(() {

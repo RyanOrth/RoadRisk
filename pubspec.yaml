@@ -44,6 +44,7 @@ dependencies:
   flutter_map: ^3.0.0
   latlng: ^0.2.0
   latlong2: any
+  maps_toolkit: ^2.0.1
 
 
 dev_dependencies:

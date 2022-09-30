@@ -90,9 +90,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
                   context.watch<RoutesModel>().savedRoutes[index].totalDistance,
                   context.watch<RoutesModel>().savedRoutes[index].totalDuration,
                   context.watch<RoutesModel>().savedRoutes[index].risk,
-                  (index % 2) ==
-                      0, // TODO: Once accurate risk is implememted delete this ternary and uncomment below
-                  // context.watch<RoutesModel>().savedRoutes[index].accurateRisk,
+                  context.watch<RoutesModel>().savedRoutes[index].accurateRisk,
                   context
                       .watch<RoutesModel>()
                       .savedRoutes[index]
