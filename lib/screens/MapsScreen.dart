@@ -95,6 +95,17 @@ class _MapsScreenState extends State<MapsScreen> {
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               ),
+              PolygonLayer(
+                polygons: [
+                  Polygon(
+                    points: newYork,
+                    color: Color.fromARGB(82, 129, 253, 177),
+                    borderColor: Colors.green,
+                    isFilled: true,
+                    borderStrokeWidth: 2,
+                  )
+                ],
+              ),
               MarkerLayer(markers: _markers),
               PolylineLayer(
                 polylines: _polylines,
