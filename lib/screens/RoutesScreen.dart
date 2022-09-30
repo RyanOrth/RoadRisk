@@ -170,38 +170,42 @@ class _RoutesScreenState extends State<RoutesScreen> {
                       style: TextStyle(
                           color: Colors.black.withOpacity(0.9), fontSize: 20),
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.warning,
-                                color: Colors.amber.shade300,
+                  : Tooltip(
+                      message:
+                          "Risk may be inaccurate due to route out of known bounds",
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.warning,
+                                  color: Colors.amber.shade300,
+                                ),
+                                onPressed: () =>
+                                    _showDialogWarningMessage(context),
                               ),
-                              onPressed: () =>
-                                  _showDialogWarningMessage(context),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Text(
-                            'Risk: ${risk.toStringAsFixed(5)} crashes annually per AADT',
-                            style: TextStyle(
-                                color: Colors.black.withOpacity(0.9),
-                                fontSize: 20),
+                          Expanded(
+                            flex: 5,
+                            child: Text(
+                              'Risk: ${risk.toStringAsFixed(5)} crashes annually per AADT',
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.9),
+                                  fontSize: 20),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Container(),
-                        ),
-                      ],
+                          Expanded(
+                            flex: 3,
+                            child: Container(),
+                          ),
+                        ],
+                      ),
                     ),
             ]),
           ),
