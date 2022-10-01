@@ -77,7 +77,7 @@ class DirectionsRepository {
     required LatLng destination,
   }) async {
     final httpResponse = await http.get(Uri.parse(
-        'http://127.0.0.1:8000/Route/Origin=${origin.latitude},${origin.longitude}&Destination=${destination.latitude},${destination.longitude}'));
+        'http://gabriel-clark.com/Route/Origin=${origin.latitude},${origin.longitude}&Destination=${destination.latitude},${destination.longitude}'));
 
     accurateRisk = _isPointInPolygon(origin, newYork) &&
         _isPointInPolygon(destination, newYork);

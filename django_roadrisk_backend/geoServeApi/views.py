@@ -10,13 +10,16 @@ import pickle
 import numpy as np
 from scipy.spatial import distance
 import math
+import os
 
-file = open('./geoServeApi/accidentPoints.pickle', 'rb')     
+path = os.path.join(os.path.dirname(os.path.dirname(__file__)),'geoServeApi/accidentPoints.pickle')
+file = open(path, 'rb')
 accident_latlngs = pickle.load(file)
 accident_latlngs = np.array(accident_latlngs)
 file.close()
 
-file = open('./geoServeApi/aadtPoints.pickle', 'rb')
+path = os.path.join(os.path.dirname(os.path.dirname(__file__)),'geoServeApi/aadtPoints.pickle')
+file = open(path, 'rb')
 aadt_latlng_info = pickle.load(file)
 file.close()
 aadt_latlngs = [x[0] for x in aadt_latlng_info]
