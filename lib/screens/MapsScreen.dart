@@ -8,6 +8,7 @@ import 'package:road_risk/common/directions_repository.dart';
 import 'dart:math';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MapsScreen extends StatefulWidget {
   final VoidCallback addNewRoute;
@@ -34,6 +35,8 @@ class _MapsScreenState extends State<MapsScreen> {
   final LatLng _center = LatLng(40.7128, -73.8060); // New York City
 
   Directions? _info;
+
+  bool _loadingRoute = false;
 
   /// Whether the mouse is currently over the add Routes button.
   /// Used for stopping dropping a pin below the button
@@ -114,6 +117,11 @@ class _MapsScreenState extends State<MapsScreen> {
           ),
         ),
         infoPill(),
+        _loadingRoute
+            ? const SpinKitFoldingCube(
+                color: Colors.blue,
+              )
+            : Container(),
       ],
     ));
   }
@@ -195,6 +203,7 @@ class _MapsScreenState extends State<MapsScreen> {
             ),
           ),
         );
+        _loadingRoute = true;
       });
     }
 
@@ -209,6 +218,7 @@ class _MapsScreenState extends State<MapsScreen> {
           color: Colors.red,
           strokeWidth: 3,
         ));
+        _loadingRoute = false;
       });
     }
   }
