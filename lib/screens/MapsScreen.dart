@@ -118,7 +118,7 @@ class _MapsScreenState extends State<MapsScreen> {
         ),
         infoPill(),
         _loadingRoute
-            ? const SpinKitFoldingCube(
+            ? const SpinKitThreeBounce(
                 color: Colors.blue,
               )
             : Container(),
