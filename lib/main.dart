@@ -35,7 +35,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _selectedIndex = 0;
+  var _selectedIndex = 2;
   bool hasNewRoute = false;
   // var screens = [
   //   const MapsScreen(

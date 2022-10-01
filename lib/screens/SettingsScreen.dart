@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             SizedBox(height: 40),
             Image(
-              image: AssetImage('../assets/images/mapsPage.png'),
+              image: AssetImage('lib/assets/mapsPage.png'),
               width: 500,
             ),
             SizedBox(height: 40),
@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             SizedBox(height: 40),
             Image(
-              image: AssetImage('../assets/images/addRouteButton.png'),
+              image: AssetImage('lib/assets/addRouteButton.png'),
               width: 500,
             ),
             SizedBox(height: 80),
@@ -80,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             SizedBox(height: 40),
             Image(
-              image: AssetImage('../assets/images/invalidRiskWarning.png'),
+              image: AssetImage('lib/assets/invalidRiskWarning.png'),
               width: 500,
             ),
             SizedBox(height: 40),
@@ -94,11 +94,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SizedBox(height: 40),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Image(
-                image: AssetImage('../assets/images/badRisk.png'),
+                image: AssetImage('lib/assets/badRisk.png'),
                 width: 300,
               ),
               Image(
-                image: AssetImage('../assets/images/riskAmountPopup.png'),
+                image: AssetImage('lib/assets/riskAmountPopup.png'),
                 width: 200,
               ),
             ]),

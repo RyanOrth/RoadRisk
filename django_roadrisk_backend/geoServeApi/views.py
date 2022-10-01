@@ -3,6 +3,7 @@
 from datetime import datetime
 from .models import Route
 from django.http import JsonResponse
+from django.http import HttpResponse
 import polyline
 import openrouteservice
 import pickle
@@ -75,3 +76,8 @@ def RouteView(request, originLat, originLong, destLat, destLong):
             "risk":0,
         }
         return JsonResponse(routeJSON)
+
+def WebsiteView(request):
+    print("website served")
+
+    return HttpResponse()
